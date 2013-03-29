@@ -7,8 +7,10 @@ background-color:#555;
 }
 
 
-.grid { margin:200px auto 25px auto; border:0px solid red; }
+.grid { margin:20px auto 25px auto; border:0px solid red; }
 .grid td { width:25px; height:25px; border:1px solid #555; background-color:white; }
+.gridall { margin:20px auto 25px auto;  }
+.gridall td { width:26px; height:26px; border:0px;}
 .nav { margin:20px auto; text-align:center; border:0px solid red; display:block;  }
 .nav button { margin:0px 10px; }
 </style>
@@ -19,12 +21,16 @@ background-color:#555;
 </body>
 
 <template name="grid">
+{{#if showall}}
+{{{gridMaker2 20 20 "gridall"}}}
+{{else}}
 {{{gridMaker 20 20 "grid"}}}
+{{/if}}
 <div class="nav">
+<button id="play" class="btn btn-primary"><i class="icon-white icon-play"></i> Play</button>
+<button id="stop" class="btn btn-primary"><i class="icon-white icon-stop"></i> Stop</button>
 <button id="save" class="btn btn-success"><i class="icon-white icon-thumbs-up"></i> Save</button>
 <button id="clear" class="btn btn-danger"><i class="icon-white icon-thumbs-down"></i> Clear</button>
 <button id="clearmemory" class="btn btn-danger"><i class="icon-white icon-thumbs-down"></i> Clear Memory</button>
 </div>
-
-{{{allgrids}}}
 </template>
