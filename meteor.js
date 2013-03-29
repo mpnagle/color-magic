@@ -1,12 +1,24 @@
 Game = new Meteor.Collection('game');
 Game.allow({
-    insert: function (userId, checkin) {
+    insert: function (userId, z) {
         return true;
     },
-    remove: function (userId, checkin) {
+    remove: function (userId, z) {
 	return true;
     },
-    update: function (userId, checkin) {
+    update: function (userId, z) {
+	return true;
+    }
+});
+Frame = new Meteor.Collection('frame');
+Frame.allow({
+    insert: function (userId, z) {
+        return true;
+    },
+    remove: function (userId, z) {
+	return true;
+    },
+    update: function (userId, z) {
 	return true;
     }
 });
@@ -18,9 +30,9 @@ if (Meteor.isClient) {
         Session.set("mycolor",colors[Math.floor(Math.random()*colors.length)]);
     });
 
-    Template.grid.gridMaker = function (a,b) {
+    Template.grid.gridMaker = function (a,b,classname) {
 
-        var grid = "<table class='grid'>";
+        var grid = "<table class='"+classname+"'>";
         for (var i = 0; i< a; i++) {
             grid += "<tr>";
             for (var j=0; j<b; j++)
@@ -31,6 +43,11 @@ if (Meteor.isClient) {
             grid += "</tr>";
         }
         return grid += "</table>";
+    };
+
+
+    Template.grid.allgrids = function() {
+        Frame.find().fetch().foreach(fuction(z) { Template.grid.gridMaker("sm-grid")});
     };
     
 
@@ -56,7 +73,14 @@ if (Meteor.isClient) {
         },
         'click #clear' : function(e) {
             Meteor.call("clear");
+        },
+        'click #clearmemory' : function(e) {
+            Meteor.call("clearmemory");
+        },
+        'click #save' : function(e) {
+            Meteor.call("save");
         }
+
     });
     
 }
@@ -72,6 +96,13 @@ if (Meteor.isServer) {
         },
         'remove' : function(id) {
             Game.remove({index:id});
-        }        
+        
+        },
+        'save' : function() {
+            Frame.insert(Game.find({}).fetch());            
+        },
+        'clearmemory' : function() {
+            Frame.remove({});            
+        }
     });
 }
