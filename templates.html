@@ -10,11 +10,13 @@ body { background:#454545; }
 </head>
     
 <body>
+
 {{>grid}}
 </body>
 
 <template name="grid">
 
+  {{{gridMaker 20 20 "grid"}}}
   <button id="clear" class="btn btn-primary">Clear Grid</button>
 
 
